@@ -119,7 +119,7 @@ void setup() {
 
 void loop() {
     // read raw accel/gyro measurements from device
-    delay(100) ;
+    delay(500) ;
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
     // these methods (and a few others) are also available
@@ -127,17 +127,41 @@ void loop() {
     //accelgyro.getRotation(&gx, &gy, &gz);
 
         // display tab-separated accel/gyro x/y/z values
-        Serial.print("a/g:\t");
-        Serial.print(ax); Serial.print("\t");
-        Serial.print(ay); Serial.print("\t");
-        Serial.print(az); Serial.print("\t");
-        Serial.print(gx); Serial.print("\t");
-        Serial.print(gy); Serial.print("\t");
-        Serial.println(gz);
-        
-
-
+        // Serial.print("a/g:\t");
+        // Serial.print(ax); Serial.print("\t");
+        // Serial.print(ay); Serial.print("\t");
+        // Serial.print(az); Serial.print("\t");
+        // Serial.print(gx); Serial.print("\t");
+        // Serial.print(gy); Serial.print("\t");
+        // Serial.println(gz);
+        SendData(); 
     // blink LED to indicate activity
     blinkState = !blinkState;
     digitalWrite(LED_PIN, blinkState);
+}
+
+void SendData() 
+{
+  String cmnd = "{";
+  cmnd += "\"ax\":";
+  cmnd += ax;
+  cmnd += ",";
+  cmnd += "\"ay\":";
+  cmnd += ay;
+  cmnd += ",";
+  cmnd += "\"az\":";
+  cmnd += az;
+  cmnd += ",";
+  cmnd += "\"gx\":";
+  cmnd += gx;
+  cmnd += ",";
+  cmnd += "\"gy\":";
+  cmnd += gy;
+  cmnd += ",";
+  cmnd += "\"gz\":";
+  cmnd += gz;
+  cmnd += ",";
+  cmnd += "\"";
+  cmnd += "}";
+  Serial.println(cmnd);
 }
